@@ -1,0 +1,138 @@
+
+import simplegui
+# Create Global Variable
+blast=280
+movement=3
+movement2=3
+sun=550
+arm2=355
+arm2part2=355
+arm2part3=355
+arm2strech= 0.5
+arm2strech2= 0.5
+arm2strech3= 1
+arm2handa = 355
+arm2handb = 355
+arm2handc = 335
+arm2handd = 335
+a=1
+blast2 = 450
+fista = -20
+fistb = -20
+fistc = 0
+fistd = 0
+b=0.5
+def draw_handler(canvas):
+    # Draw Here!
+    #global
+    global sun
+    global blast
+    global movement
+    global movement2
+    global arm1
+    global arm2
+    global arm2strech
+    global arm2strech2
+    global arm2strech3
+    global arm2part2
+    global arm2part3
+    global arm2handa
+    global arm2handb
+    global arm2handc
+    global arm2handd
+    global a
+    global blast2
+    global fista
+    global fistb
+    global fistc
+    global fistd
+    global b
+   #Robot movement
+    arm2 -= arm2strech
+    arm2part2 -= arm2strech3
+    arm2part3 -= arm2strech2
+    arm2handa -= a
+    arm2handb -= a
+    arm2handc -= a
+    arm2handd -= a
+    #Sun
+    canvas.draw_circle((sun,50), 100, 3, "lightyellow", "yellow")
+
+    #ground
+    canvas.draw_polygon([(600,600), (600, 530), (0,530), (0, 600)], 2,"black", "lightgrey")
+    
+#Robot
+    #Body
+    for i in range (1):
+        canvas.draw_polygon([(100,300), (200, 300), (200,450), (100, 450)], 1,"black", "silver")
+    #legs
+    canvas.draw_line((125,450), (125,500), 10, "Grey")
+    canvas.draw_line((175,450), (175,500), 10, "Grey")
+    #Feet
+    canvas.draw_polygon([(100,530), (135,530), (135,500), (100,500)], 1,"black", "silver")
+    canvas.draw_polygon([(165,530), (200,530), (200,500), (165,500)], 1,"black", "silver")
+    #Neck
+    canvas.draw_line((150,300), (150,270), 10, "Grey")
+    #head
+    canvas.draw_polygon([(100, 270), (200, 270), (200, 200), (100, 200)], 1,"black", "silver")
+    canvas.draw_polygon([(140, 260), (160, 260), (160, 255), (140, 255)], 1,"Grey", "Grey")
+    #eyes
+    canvas.draw_circle((125,230), 10, 3, "White", "black")
+    canvas.draw_circle((175,230), 10, 3, "White", "black")
+    #Arm/hand1
+    arm1=canvas.draw_line((200,325), (250,325), 10, "grey")
+    canvas.draw_polygon([(250,315),(270,315), (270,335),(250,335)], 1,"black", "silver")
+    #Arm/hand2
+    canvas.draw_line((75,arm2), (100,325), 10, "grey")
+    canvas.draw_line((50,arm2part2), (75,arm2part3), 10, "grey")
+    #Robot movement
+    if arm2 <= 325:
+        arm2strech = 0 
+    if arm2part2 <= 275:
+        arm2strech3 = 0
+    if arm2part3 <= 325:
+        arm2strech2 = 0
+    canvas.draw_polygon([(30,arm2handa),(50,arm2handb), (50,arm2handc),(30,arm2handd)], 1,"black", "silver")
+    if arm2handa <= 280:
+        a=0
+        for i in range (5):
+            a=0.5
+            arm2handa -= a
+            arm2handb -= a
+            arm2handc -= a
+            arm2handd -= a
+    #Robot blast
+    if arm2handc <=-5:
+        blast+=movement
+        canvas.draw_circle((blast,325), 30, 3, "red-orange", "Red")
+    if blast >= 460:
+        movement = 0
+        blast2-=movement2
+        canvas.draw_circle((blast2,320), 27, 3, "limegreen", "green")
+#bug
+    canvas.draw_circle((400,500), 40, 3, "black", "darkgreen")
+    canvas.draw_circle((450,475), 50, 2, "black", "darkgreen")
+    canvas.draw_circle((475,415), 50, 2, "black", "darkgreen")
+    canvas.draw_circle((480,360), 45, 2, "black", "darkgreen")
+    canvas.draw_circle((440,265), 75, 3, "black", "darkgreen")
+    #bug eyes
+    canvas.draw_circle((410,250), 20, 3, "White", "red")
+    canvas.draw_circle((470,250), 20, 3, "White", "red")
+    #bug mouth
+    canvas.draw_polygon([(420, 300), (460, 280), (460, 300), (420, 280)],3,"pink", "darkred")
+    if blast2 <= -5:
+        canvas.draw_polygon([(420, fista),(440,fistb),(440,fistc),(420,fistd)], 1,"orange", "silver")
+        fista += b
+        fistb += b
+        fistc += b
+        fistd += b
+    if fista >= 200:
+        b=0
+        fista = -20
+        fistb = -20
+        fistc = 0
+        fistd = 0
+frame = simplegui.create_frame('Big Battle', 600, 600)
+frame.set_canvas_background("lightblue")
+frame.set_draw_handler(draw_handler)
+frame.start()
